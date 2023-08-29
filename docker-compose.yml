@@ -1,0 +1,50 @@
+services:
+  gobeh_backend:
+    build:
+      context: gobeh
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - ./gobeh:/gobeh
+    depends_on:
+      gobeh_database:
+        condition: service_healthy
+
+  gobeh_database:
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=gobeh
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gobeh_nginx:
+    image: nginx
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+    ports:
+      - 6969:80
+    depends_on:
+      - gobeh_backend
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: database/password.txt
