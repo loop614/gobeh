@@ -1,4 +1,4 @@
-package persistence
+package main
 
 import (
 	"database/sql"
@@ -8,7 +8,11 @@ import (
 	"time"
 )
 
-func Connect() (*sql.DB, error) {
+func main() {
+	prepare()
+}
+
+func connect() (*sql.DB, error) {
 	bin, err := os.ReadFile("/run/secrets/db-password")
 	if err != nil {
 		return nil, err
@@ -16,8 +20,8 @@ func Connect() (*sql.DB, error) {
 	return sql.Open("postgres", fmt.Sprintf("postgres://postgres:%s@gobeh_database:5432/gobeh?sslmode=disable", string(bin)))
 }
 
-func Prepare() error {
-	db, err := Connect()
+func prepare() error {
+	db, err := connect()
 	if err != nil {
 		return err
 	}

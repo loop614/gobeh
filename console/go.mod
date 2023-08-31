@@ -1,4 +1,4 @@
-module github.com/loop614/gobeh
+module github.com/loop614/gobeh/console
 
 go 1.18
 

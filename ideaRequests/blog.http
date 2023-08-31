@@ -1,0 +1,12 @@
+### GET request with a header
+GET http://localhost:6969/
+Accept: application/json
+
+
+### Send POST request with json body
+POST http://localhost:6969/add
+Content-Type: application/json
+
+{
+    "title": "new title1"
+}

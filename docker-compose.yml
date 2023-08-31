@@ -7,6 +7,20 @@ services:
       - db-password
     volumes:
       - ./gobeh:/gobeh
+    ports:
+      - 6969:8000
+    depends_on:
+      gobeh_database:
+        condition: service_healthy
+
+  gobeh_console:
+    build:
+      context: console
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - ./console:/console
     depends_on:
       gobeh_database:
         condition: service_healthy
@@ -29,18 +43,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  gobeh_nginx:
-    image: nginx
-    volumes:
-      - type: bind
-        source: ./nginx/nginx.conf
-        target: /etc/nginx/conf.d/default.conf
-        read_only: true
-    ports:
-      - 6969:80
-    depends_on:
-      - gobeh_backend
 
 volumes:
   db-data:

@@ -1,20 +1,19 @@
 ### Description
-- Learning Go
-- Rest Api 
+- Go, Postgres
 
 ### Status
-- Just started
-- Refactoring to a http responder
+- Setup
 
 ### Requirements
 - docker with compose
 
 ### Quick Start
 ```console
-$ docker compose build --no-cache
-$ docker compose up --remove-orphans
+$ docker compose build
+$ docker compose up
 ```
 - [visit locahost](http://localhost:6969/) 
+- check ideaRequests
 
 ### Thanks to
 - [Lane](https://github.com/wagslane)
